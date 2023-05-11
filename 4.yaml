@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+  namespace: wordpress-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+      annotations:
+        gke-gcsfuse/volumes: "true"
+    spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 2002
+        fsGroup: 3003
+      serviceAccountName: wordpress-sa
+      automountServiceAccountToken: true      
+      containers:
+        - name: wordpress
+          image: wordpress:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: 127.0.0.1:3306
+            - name: WORDPRESS_DB_USER
+              value: mysql-wordpress
+            - name: WORDPRESS_DB_PASSWORD
+              value: mysql-wordpress-password
+            - name: WORDPRESS_DB_NAME
+              value: wordpress-db
+          volumeMounts:
+            - name: gcs-volume
+              mountPath: /var/www/html/wp-content/uploads
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+          args:
+            - "--private-ip"
+            - "--structured-logs"
+            - "--port=3306"
+            - "proud-voice-386015:europe-central2:wpdb"
+          securityContext:
+            runAsNonRoot: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          emptyDir: {}
+        - name: gcs-volume
+          csi:
+            driver: gcsfuse.csi.storage.gke.io
+            volumeAttributes:
+              bucketName: wp-datas
