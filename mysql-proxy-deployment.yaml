@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-service
+  namespace: wordpress-app
+spec:
+  selector:
+    app: mysql-proxy
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-proxy-deployment
+  namespace: wordpress-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-proxy
+  template:
+    metadata:
+      labels:
+        app: mysql-proxy
+    spec:
+      serviceAccountName: wordpress-sa
+      automountServiceAccountToken: true      
+      containers:
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+          args:
+            - "--private-ip"
+            - "--structured-logs"
+            - "--port=3306"
+            - "proud-voice-386015:europe-central2:wpdb"
+          securityContext:
+            runAsNonRoot: true
+      volumes:
+        - name: cloudsql-instance-credentials
+          emptyDir: {}
