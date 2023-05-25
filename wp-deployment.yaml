@@ -30,10 +30,6 @@ spec:
       annotations:
         gke-gcsfuse/volumes: "true"
     spec:
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 2002
-        fsGroup: 3003
       serviceAccountName: wordpress-sa
       automountServiceAccountToken: true      
       containers:
@@ -43,7 +39,7 @@ spec:
             - containerPort: 80
           env:
             - name: WORDPRESS_DB_HOST
-              value: mysql-proxy
+              value: mysql-proxy-service
             - name: WORDPRESS_DB_USER
               value: mysql-wordpress
             - name: WORDPRESS_DB_PASSWORD
