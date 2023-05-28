@@ -18,10 +18,10 @@ spec:
         gke-gcsfuse/memory-limit: 100Mi
     spec:
       serviceAccountName: wordpress-sa
-      automountServiceAccountToken: true      
+      automountServiceAccountToken: true     
       containers:
         - name: wordpress
-          image: wordpress:latest
+          image: europe-central2-docker.pkg.dev/proud-voice-386015/wp-costume/wp:1.0
           ports:
             - containerPort: 80
           env:
@@ -48,7 +48,7 @@ spec:
             driver: gcsfuse.csi.storage.gke.io
             volumeAttributes:
               bucketName: wp-datas
-              mountOptions: "implicit-dirs,uid=1001,gid=3003"
+              mountOptions: "implicit-dirs,uid=33,gid=33"
         - name: config
           configMap:
             name: php-config
