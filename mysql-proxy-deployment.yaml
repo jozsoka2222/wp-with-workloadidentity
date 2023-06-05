@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wordpress-service
+  name: mysql-proxy-service
   namespace: wordpress-app
 spec:
   selector:
     app: mysql-proxy
-    tier: backend
   ports:
     - protocol: TCP
       port: 3306
