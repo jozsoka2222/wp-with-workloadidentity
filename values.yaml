@@ -902,10 +902,10 @@ grafana:
     ## TLS configuration for grafana Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-    # - secretName: grafana-general-tls
-    #   hosts:
-    #   - grafana.example.com
+    tls: 
+    - secretName: monitor-mjozsef-tls
+      hosts:
+      - monitor.mjozsef.hu
 
   sidecar:
     dashboards:
