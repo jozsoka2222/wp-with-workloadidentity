@@ -23,6 +23,6 @@ spec:
         path: "/"
         backend:
           service:
-            name: wordpress-deployment-7c6d78bd66-jzfvl-jkmzr
+            name: wordpress-service
             port:
               number: 80

@@ -33,10 +33,14 @@ spec:
       containers:
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.0
+          ports:
+            - containerPort: 3306
           args:
             - "--private-ip"
             - "--structured-logs"
             - "--port=3306"
+            - "-a=0.0.0.0"
+            - "-i"
             - "proud-voice-386015:europe-central2:wpdb"
           securityContext:
             runAsNonRoot: true
