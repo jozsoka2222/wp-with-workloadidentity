@@ -1,0 +1,22 @@
+namespace: ingress-nginx
+controller:
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/port: "10254"
+        prometheus.io/scrape: "true"
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+      additionalLabels:
+        release: "prometheus"
+  ingressClassResource:
+    default: true
+  replicaCount: 1
+  serviceMonitor:
+    create: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 90Mi

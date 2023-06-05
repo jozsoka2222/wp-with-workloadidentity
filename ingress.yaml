@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mjozsef-domain-ingress
+  namespace: wordpress-app
+spec:
+  ingressClassName: nginx
+  rules:
+  # - host: "monitor.mjozsef.hu"
+  #   http:
+  #     paths:
+  #     - pathType: Prefix
+  #       path: "/"
+  #       backend:
+  #         service:
+  #           name: prometheus-grafana
+  #           port:
+  #             number: 80
+  - host: "project.mjozsef.hu"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: wordpress-deployment-7c6d78bd66-jzfvl-jkmzr
+            port:
+              number: 80
