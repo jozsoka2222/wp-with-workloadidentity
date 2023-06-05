@@ -5,6 +5,10 @@ metadata:
   namespace: wordpress-app
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+      - project.mjozsef.hu
+    secretName: project-mjozsef-tls
   rules:
   # - host: "monitor.mjozsef.hu"
   #   http:
