@@ -10,16 +10,6 @@ spec:
       - project.mjozsef.hu
     secretName: project-mjozsef-tls
   rules:
-  # - host: "monitor.mjozsef.hu"
-  #   http:
-  #     paths:
-  #     - pathType: Prefix
-  #       path: "/"
-  #       backend:
-  #         service:
-  #           name: prometheus-grafana
-  #           port:
-  #             number: 80
   - host: "project.mjozsef.hu"
     http:
       paths:

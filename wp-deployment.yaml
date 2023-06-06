@@ -36,7 +36,7 @@ spec:
       automountServiceAccountToken: true     
       containers:
         - name: wordpress
-          image: europe-central2-docker.pkg.dev/proud-voice-386015/wp-costume/wp:1.0
+          image: wordpress:latest
           ports:
             - containerPort: 80
           env:
@@ -51,10 +51,6 @@ spec:
           volumeMounts:
             - name: gcs-volume
               mountPath: /var/www/html/wp-content/uploads
-            - mountPath: /usr/local/etc/php/conf.d/valami.ini
-              name: config
-              readOnly: true
-              subPath: valami.ini
       volumes:
         - name: cloudsql-instance-credentials
           emptyDir: {}
@@ -64,9 +60,3 @@ spec:
             volumeAttributes:
               bucketName: wp-datas
               mountOptions: "implicit-dirs,uid=33,gid=33"
-        - name: config
-          configMap:
-            name: php-config
-            items:
-            - key: valami.ini
-              path: valami.ini
