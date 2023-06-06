@@ -36,7 +36,7 @@ spec:
           ports:
             - containerPort: 3306
           args:
-            - "--private-ip"
+            - "--private-ip" 
             - "--structured-logs"
             - "--port=3306"
             - "-a=0.0.0.0"
