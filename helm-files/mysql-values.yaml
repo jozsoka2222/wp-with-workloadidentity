@@ -129,15 +129,15 @@ collectors: {}
   # heartbeat.database: heartbeat
   # heartbeat.table: heartbeat
 
-# mysql connection params which build the DATA_SOURCE_NAME env var of the docker container monitoring:monitoring@(10.0.144.3:3306)/
+# mysql connection params which build the DATA_SOURCE_NAME env var of the docker container
 mysql:
   db: ""
-  host: "10.0.144.3"
+  host: "private ip"
   param: ""
-  pass: "monitoring"
+  pass: "password"
   port: 3306
   protocol: ""
-  user: "monitoring"
+  user: "username"
   # secret with full DATA_SOURCE_NAME env var as stringdata
   existingSecret: ""
   # secret only containing the password
