@@ -3152,7 +3152,20 @@ prometheus:
 
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#remotewritespec
-    remoteWrite: []
+    # remote_write:
+    #   - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
+    #     basic_auth:
+    #       username: 1026925
+    #       password: glc_eyJvIjoiODczNjc2IiwibiI6InRlc3p0LXRva2VuZW0yIiwiayI6IjA3NllJMlp5bjVDVDJpR1htZDVuRjMwMiIsIm0iOnsiciI6ImV1In19
+    remoteWrite:
+    - url: "https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push"
+      basicAuth:
+          username:
+            name: kubepromsecret
+            key: username
+          password:
+            name: kubepromsecret
+            key: password
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
     additionalRemoteWrite: []
@@ -3162,9 +3175,9 @@ prometheus:
 
     ## Resource limits & requests
     ##
-    resources: {}
-    # requests:
-    #   memory: 400Mi
+    resources:
+      requests:
+        memory: 400Mi
 
     ## Prometheus StorageSpec for persistent data
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/storage.md
