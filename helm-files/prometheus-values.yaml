@@ -165,6 +165,10 @@ additionalPrometheusRulesMap: {}
 
 ##
 global:
+  scrape_interval: 60s
+  scrape_timeout: 10s
+  external_labels:
+    cluster: cluster-1
   rbac:
     create: true
 
@@ -1296,7 +1300,7 @@ kubelet:
 ## Component scraping the kube controller manager
 ##
 kubeControllerManager:
-  enabled: true
+  enabled: false
 
   ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
   ##
@@ -1448,7 +1452,7 @@ coreDns:
 ## Component scraping kubeDns. Use either this or coreDns
 ##
 kubeDns:
-  enabled: true
+  enabled: false
   service:
     dnsmasq:
       port: 10054
@@ -1789,7 +1793,7 @@ kubeProxy:
 ## Component scraping kube state metrics
 ##
 kubeStateMetrics:
-  enabled: true
+  enabled: false
 
 ## Configuration for kube-state-metrics subchart
 ##
@@ -1863,7 +1867,7 @@ kube-state-metrics:
 ## Deploy node exporter as a daemonset to all nodes
 ##
 nodeExporter:
-  enabled: true
+  enabled: false
 
 ## Configuration for prometheus-node-exporter subchart
 ##
@@ -2735,7 +2739,7 @@ prometheus:
     ## Scrape interval. If not set, the Prometheus default scrape interval is used.
     ##
     interval: ""
-    selfMonitor: true
+    selfMonitor: false
 
     ## Additional labels
     ##
@@ -2807,7 +2811,7 @@ prometheus:
     ## Defaults to 30s.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/release-0.44/pkg/prometheus/promcfg.go#L180-L183
     ##
-    scrapeInterval: ""
+    scrapeInterval: "60s"
 
     ## Number of seconds to wait for target to respond before erroring
     ##
@@ -2893,7 +2897,8 @@ prometheus:
 
     ## External labels to add to any time series or alerts when communicating with external systems
     ##
-    externalLabels: {}
+    externalLabels:
+      cluster: cluster-1-own-prom
 
     ## enable --web.enable-remote-write-receiver flag on prometheus-server
     ##
@@ -3152,20 +3157,15 @@ prometheus:
 
     ## The remote_write spec configuration for Prometheus.
     ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#remotewritespec
-    # remote_write:
-    #   - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
-    #     basic_auth:
-    #       username: 1026925
-    #       password: glc_eyJvIjoiODczNjc2IiwibiI6InRlc3p0LXRva2VuZW0yIiwiayI6IjA3NllJMlp5bjVDVDJpR1htZDVuRjMwMiIsIm0iOnsiciI6ImV1In19
-    remoteWrite:
-    - url: "https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push"
-      basicAuth:
-          username:
-            name: kubepromsecret
-            key: username
-          password:
-            name: kubepromsecret
-            key: password
+    remoteWrite: []
+    # - url: "https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push"
+    #   basicAuth:
+    #       username:
+    #         name: kubepromsecret
+    #         key: username
+    #       password:
+    #         name: kubepromsecret
+    #         key: password
     # - url: http://remote1/push
     ## additionalRemoteWrite is appended to remoteWrite
     additionalRemoteWrite: []
