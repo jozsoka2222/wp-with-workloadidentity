@@ -1,0 +1,54 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: MetricsInstance
+metadata:
+  name: primary
+  namespace: monitoring
+  labels:
+    agent: grafana-agent-metrics
+spec:
+  remoteWrite:
+  - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
+    # basic_auth:
+    #     username: 1026925
+    #     password: glc_eyJvIjoiODczNjc2IiwibiI6InRlc3p0IiwiayI6IkxUUTQ3UDFzN2hsMTlyYTk2NHVzd0E4QyIsIm0iOnsiciI6ImV1In19
+    basicAuth:
+      username:
+        name: primary-credentials-metrics
+        key: username
+      password:
+        name: primary-credentials-metrics
+        key: password
+
+  # As an alternative authentication method, Grafana Agent also supports OAuth2.
+  # - url: your_remote_write_URL
+  #   oauth2:
+  #     clientId:
+  #       secret:
+  #         key: username # Kubernetes Secret Key
+  #         name: primary-credentials-metrics # Kubernetes Secret Name
+  #     clientSecret:
+  #       key: password # Kubernetes Secret Key
+  #       name: primary-credentials-metrics # Kubernetes Secret Name
+  #     tokenUrl: https://auth.example.com/realms/master/protocol/openid-connect/token
+
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the MetricsInstance CR
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchLabels:
+      instance: primary
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the MetricsInstance CR.
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchLabels:
+      instance: primary
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the MetricsInstance CR.
+  probeNamespaceSelector: {}
+  probeSelector:
+    matchLabels:
+      instance: primary
