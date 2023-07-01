@@ -8,9 +8,6 @@ metadata:
 spec:
   remoteWrite:
   - url: https://prometheus-prod-01-eu-west-0.grafana.net/api/prom/push
-    # basic_auth:
-    #     username: 1026925
-    #     password: glc_eyJvIjoiODczNjc2IiwibiI6InRlc3p0IiwiayI6IkxUUTQ3UDFzN2hsMTlyYTk2NHVzd0E4QyIsIm0iOnsiciI6ImV1In19
     basicAuth:
       username:
         name: primary-credentials-metrics
